@@ -1,0 +1,22 @@
+node_modules/
+.next/
+.env*
+!.env.example
+!.env.metrics.example
+.vercel/
+*.tsbuildinfo
+test-results/
+*.log
+.test-build/
+
+# Private hosted test fixtures and customer browser evidence
+metrics/live-customers.json
+metrics/live-customer-a.json
+metrics/live-workflows.json
+docs/evidence/customer-*.png
+
+.vercel
+.env*
+
+# All raw hosted-account evaluation artifacts remain local
+metrics/live*.json

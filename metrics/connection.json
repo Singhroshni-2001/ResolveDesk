@@ -1,0 +1,12 @@
+{
+  "checkedAt": "2026-10-05T05:59:41.139Z",
+  "configuration": "present",
+  "authReachable": true,
+  "dataApiReachable": false,
+  "anonymousProfileAccessDenied": false,
+  "automaticExposure": "requires dashboard/SQL verification",
+  "automaticRls": "requires dashboard/SQL verification",
+  "authReachableStatus": 200,
+  "dataApiReachableStatus": 401,
+  "profileProbeStatus": 404
+}

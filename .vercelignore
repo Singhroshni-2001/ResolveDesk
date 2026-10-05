@@ -1,0 +1,12 @@
+.git/
+.next/
+node_modules/
+.env*
+test-results/
+*.log
+docs/evidence/customer-*.png
+metrics/live-customers.json
+metrics/live-customer-a.json
+metrics/live-workflows.json
+
+metrics/live*.json

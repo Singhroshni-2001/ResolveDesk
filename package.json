@@ -1,0 +1,48 @@
+{
+  "name": "resolvedesk",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --hostname 0.0.0.0",
+    "build": "next build",
+    "start": "next start --hostname 0.0.0.0",
+    "typecheck": "tsc --noEmit",
+    "test": "node scripts/run-tests.mjs",
+    "verify:models": "node scripts/verify-models.mjs",
+    "verify:gemini": "node scripts/verify-gemini.mjs",
+    "test:customers": "node scripts/verify-customers.mjs",
+    "test:ingestion": "node scripts/verify-ingestion.mjs",
+    "verify:release": "node scripts/check-release.mjs",
+    "test:db": "node scripts/test-database.mjs",
+    "test:live": "node scripts/verify-live-workflows.mjs",
+    "verify:connection": "node scripts/check-connection.mjs",
+    "metrics:local": "node scripts/measure-local.mjs",
+    "metrics:live": "node scripts/measure-live.mjs",
+    "metrics:report": "node scripts/render-metrics.mjs",
+    "verify": "node scripts/verify.mjs",
+    "format": "prettier --write app components lib scripts tests types next.config.ts"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.58.0",
+    "lucide-react": "^0.468.0",
+    "next": "^16.0.0",
+    "pdf-parse": "^1.1.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "server-only": "^0.0.1",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.8",
+    "@electric-sql/pglite-pgvector": "^0.0.9",
+    "@tailwindcss/postcss": "^4.1.0",
+    "@types/node": "^22.0.0",
+    "@types/pdf-parse": "^1.1.5",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "prettier": "^3.9.9",
+    "tailwindcss": "^4.1.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0"
+  }
+}

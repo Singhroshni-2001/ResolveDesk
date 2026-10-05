@@ -1,0 +1,38 @@
+{
+  "measuredAt": "2026-10-05T12:54:12.040Z",
+  "scope": "LIVE Gemini synthetic smoke only; not end-to-end application RAG",
+  "models": {
+    "answer": "gemini-3.1-flash-lite",
+    "embedding": "gemini-embedding-2"
+  },
+  "conditions": {
+    "nPerOperation": 1,
+    "concurrency": 1,
+    "content": "fictional policy only",
+    "billing": "not changed; Free tier must be confirmed in owner dashboard",
+    "paidFallback": false
+  },
+  "results": [
+    {
+      "name": "actual 768-dimensional embedding",
+      "status": "PASS",
+      "httpStatus": 200,
+      "elapsedMs": 1052.5515,
+      "dimensions": 768
+    },
+    {
+      "name": "actual bounded answer and supplied citation",
+      "status": "PASS",
+      "httpStatus": 200,
+      "finishReason": "STOP",
+      "diagnostic": {
+        "hasAnswer": true,
+        "hasWindow": true,
+        "citations": [
+          1
+        ]
+      },
+      "elapsedMs": 3457.0815000000002
+    }
+  ]
+}
