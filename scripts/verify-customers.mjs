@@ -119,10 +119,12 @@ try {
           ),
         );
         if (actor === "A") {
-          fixtures.A = workspace.data.tickets.find(t => t.subject.startsWith("[TEST] Customer A persistence"))?.id || workspace.data.tickets[0]?.id;
+          fixtures.A =
+            workspace.data.tickets.find((t) =>
+              t.subject.startsWith("[TEST] Customer A persistence"),
+            )?.id || workspace.data.tickets[0]?.id;
           assert.ok(fixtures.A, "A must have an existing test ticket");
-        }
-        else {
+        } else {
           assert.ok(
             workspace.data.tickets.length,
             "B must have an existing test ticket",

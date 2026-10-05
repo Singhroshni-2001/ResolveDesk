@@ -143,6 +143,7 @@ for (let i = 0; i < cases.length; i++) {
         status: response.status,
         elapsedMs,
         result: "request-failed",
+        publicError: typeof data.error === "string" ? data.error : null,
       });
       if ([401, 403, 429, 503].includes(response.status)) break;
       continue;
@@ -204,7 +205,7 @@ for (let i = 0; i < cases.length; i++) {
     });
     break;
   }
-  await delay(2000);
+  await delay(Number(process.env.EVAL_SPACING_MS || 2000));
 }
 function summary(values) {
   const sorted = values.sort((a, b) => a - b);
@@ -229,7 +230,7 @@ const output = {
         : "approved Vercel deployment",
     sampleSizePlanned: cases.length,
     concurrency: 1,
-    spacingMs: 2000,
+    spacingMs: Number(process.env.EVAL_SPACING_MS || 2000),
     warmup: "none; first request included",
     conversationContext: "fresh conversation per case",
     cache: "unique request IDs; no saved answer reuse",

@@ -11,23 +11,43 @@ export async function gemini(model: string, method: string, payload: unknown) {
     );
   if (!/^[a-z0-9.-]+$/.test(model))
     throw new HttpError(503, "The configured AI model name is invalid.");
-  let response: Response;
+  let response!: Response;
   try {
-    response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${model}:${method}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "x-goog-api-key": key },
-        body: JSON.stringify(payload),
-        signal: AbortSignal.timeout(18000),
-      },
-    );
+    for (let attempt = 0; attempt < 2; attempt++) {
+      response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${model}:${method}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-goog-api-key": key,
+          },
+          body: JSON.stringify(payload),
+          signal: AbortSignal.timeout(18000),
+        },
+      );
+      if (![500, 502, 503, 504].includes(response.status) || attempt === 1)
+        break;
+      console.warn("ResolveDesk transient AI retry", {
+        model,
+        method,
+        status: response.status,
+      });
+      await new Promise((resolve) => setTimeout(resolve, 800));
+    }
   } catch {
     throw new HttpError(
       503,
       "The AI service did not respond in time. Please retry later or create a ticket.",
     );
   }
+  // Safe upstream status: never log keys, prompts or response bodies.
+  if (!response.ok)
+    console.warn("ResolveDesk AI upstream", {
+      model,
+      method,
+      status: response.status,
+    });
   if (!response.ok)
     throw new HttpError(
       response.status === 429 ? 429 : 503,

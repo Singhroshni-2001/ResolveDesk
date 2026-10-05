@@ -42,8 +42,10 @@ try {
   } else {
     const target = new URL(base);
     assert.ok(
-      target.protocol === "http:" &&
-        ["localhost", "127.0.0.1"].includes(target.hostname),
+      (target.protocol === "http:" &&
+        ["localhost", "127.0.0.1"].includes(target.hostname)) ||
+        (target.protocol === "https:" &&
+          target.hostname === "resolvedesk-mocha.vercel.app"),
     );
     const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
     assert.ok(
@@ -203,12 +205,14 @@ try {
             "No document/ticket deletions; same-hash reuse; test-session-only sign-out",
         },
         checks,
-        corpus: {
-          documents: manifest.length,
-          logicalPages: manifest.reduce((n, d) => n + d.logicalPages, 0),
-          chunks: manifest.reduce((n, d) => n + d.chunks, 0),
-          manifest,
-        },
+        corpus: manifest.length
+          ? {
+              documents: manifest.length,
+              logicalPages: manifest.reduce((n, d) => n + d.logicalPages, 0),
+              chunks: manifest.reduce((n, d) => n + d.chunks, 0),
+              manifest,
+            }
+          : null,
       },
       null,
       2,
