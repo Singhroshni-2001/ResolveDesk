@@ -20,3 +20,7 @@ docs/evidence/customer-*.png
 
 # All raw hosted-account evaluation artifacts remain local
 metrics/live*.json
+
+# Publish only credential-free configuration examples
+!.env.example
+!.env.metrics.example
