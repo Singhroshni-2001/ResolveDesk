@@ -57,9 +57,11 @@ try {
   } else {
     const target = new URL(base);
     assert.ok(
-      target.protocol === "http:" &&
-        ["localhost", "127.0.0.1"].includes(target.hostname),
-      "This pre-deployment test must use localhost",
+      (target.protocol === "http:" &&
+        ["localhost", "127.0.0.1"].includes(target.hostname)) ||
+        (target.protocol === "https:" &&
+          target.hostname === "resolvedesk-mocha.vercel.app"),
+      "Use localhost or the explicitly approved production deployment",
     );
     const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
     assert.ok(
@@ -200,6 +202,10 @@ try {
         measuredAt: new Date().toISOString(),
         scope:
           "LIVE hosted Supabase and local Next HTTP API; browser reload is separate evidence",
+        target:
+          new URL(base).hostname === "resolvedesk-mocha.vercel.app"
+            ? "Vercel production"
+            : "local Next app with hosted Supabase",
         fixtures,
         preservation:
           "Existing tickets retained; test-session-only sign-out; no role changes or deletions",

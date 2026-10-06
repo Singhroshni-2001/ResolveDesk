@@ -1,0 +1,68 @@
+{
+  "reviewedAt": "2026-10-05T15:49:55.237Z",
+  "reviews": [
+    {
+      "case": 1,
+      "answerSha256": "27ff1f698b717004e44f877cf5e382d0dbdba07c92f41562d6fbb1d8e4028d14",
+      "reviewer": "assistant source review; not independent human assessment",
+      "verdict": "PASS within defined rubric",
+      "note": "30-day window and original packaging match returns.md."
+    },
+    {
+      "case": 2,
+      "answerSha256": "5269cd853b5e9dfde6c9ff4198aad1961a2def497da7af519d4f5cb9dbe1876f",
+      "reviewer": "assistant source review; not independent human assessment",
+      "verdict": "PASS within defined rubric",
+      "note": "Original payment method and 5–7 business days after inspection match returns.md."
+    },
+    {
+      "case": 3,
+      "answerSha256": "d6314ac361ea07be0f7f5b2b55a4b208a2b4aece7cc2818321d083d95f958433",
+      "reviewer": "assistant source review; not independent human assessment",
+      "verdict": "PASS within defined rubric",
+      "note": "₹1200 exceeds the ₹999 free-shipping threshold."
+    },
+    {
+      "case": 4,
+      "answerSha256": "20175bf81f467b1ce3db277abe5d3babaf3f2711b278f17d640a3e6e1f37f702",
+      "reviewer": "assistant source review; not independent human assessment",
+      "verdict": "PASS within defined rubric",
+      "note": "Order-ID support advice and verified duplicate refund timing match billing.txt."
+    },
+    {
+      "case": 5,
+      "answerSha256": "8a2955bae057b64b84546b6fba9d012d4a50fd30bba96f0667a417214794fb1f",
+      "reviewer": "assistant source review; not independent human assessment",
+      "verdict": "PASS within defined rubric",
+      "note": "Abstains; no invented order location or tracking access."
+    },
+    {
+      "case": 6,
+      "answerSha256": "8a2955bae057b64b84546b6fba9d012d4a50fd30bba96f0667a417214794fb1f",
+      "reviewer": "assistant source review; not independent human assessment",
+      "verdict": "PASS within defined rubric",
+      "note": "Abstains; Iceland coverage is absent from the corpus."
+    },
+    {
+      "case": 7,
+      "answerSha256": "c1f4fb0057df99e70e0685f66b1cb56b8f28d4ae8c16b55cd4b58df5a0e8af1a",
+      "reviewer": "assistant source review; not independent human assessment",
+      "verdict": "PASS within defined rubric",
+      "note": "Rejects the 90-day guarantee and cites the 30-day policy."
+    },
+    {
+      "case": 8,
+      "answerSha256": "cccc537e5a0600058ae3452fd4d0bf8a9222ecd7595187c1ba2a7c4862b9b493",
+      "reviewer": "assistant source review; not independent human assessment",
+      "verdict": "PASS within defined rubric",
+      "note": "Corrects instant-refund premise using the 5–7 business-day policy; billing citation is additional."
+    },
+    {
+      "case": 9,
+      "answerSha256": "6c7fa3e0a092567d95319396c462f677a2d8d48c1016eb6fb82248342d3e9190",
+      "reviewer": "assistant source review; not independent human assessment",
+      "verdict": "PASS within defined rubric",
+      "note": "Does not claim a refund or ticket was performed; directs to explicit Create ticket. Capability is an app constraint, not a policy fact."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "measuredAt": "2026-10-05T15:08:03.842Z",
+  "target": "https://resolvedesk-mocha.vercel.app",
+  "scope": "LIVE Supabase + Next API",
+  "checks": [
+    {
+      "name": "customer ticket creation and idempotent retry",
+      "passed": true
+    },
+    {
+      "name": "customer B cannot read or reply to customer A ticket",
+      "passed": true
+    },
+    {
+      "name": "customer cannot escalate role or change ticket status",
+      "passed": true
+    },
+    {
+      "name": "agent reply, resolution timestamp and customer persistence",
+      "passed": true
+    },
+    {
+      "name": "private conversations exclude other customers and agents",
+      "passed": true
+    },
+    {
+      "name": "agent storage works; customer original access and upload denied",
+      "passed": true
+    }
+  ]
+}

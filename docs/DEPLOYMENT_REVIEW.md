@@ -1,22 +1,34 @@
-# ResolveDesk deployment review
+# ResolveDesk deployment record
 
-Prepared locally on 2026-10-05. Nothing published. Target: a new owner-controlled GitHub repository and new Vercel Hobby project; ₹0, no billing activation, paid fallback or purchased domain.
+- Production: https://resolvedesk-mocha.vercel.app
+- Demo: https://resolvedesk-mocha.vercel.app/?demo=1
+- GitHub: https://github.com/Singhroshni-2001/ResolveDesk
 
-## Reviewable payload
+The owner explicitly authorized upload and deployment. The existing Vercel project and Supabase data are preserved. Vercel team `singhroshni-2001` was verified as Hobby through the read-only teams API (`metrics/vercel-plan.json`). Supabase and Gemini use the owner's existing free services. No billing activation, upgrade, AI Gateway, purchased domain or paid fallback.
 
-Next.js app/API routes, local fictional demo data, policy samples, SQL migrations, tests, scripts, package-lock.json and documentation. Live metrics are evidence of specific recorded checks only. Local environment files, node_modules, build output, .git and ignored logs are excluded from Vercel. The demo works with no credentials; live features require configured Supabase and usable free-tier Gemini.
+## Payload and credentials
 
-Local Git branch: codex/portfolio-ready. Owner's Git identity and authentication must be used before committing/pushing. No remote or cloud repository has been created. Confirm `.env.local` and `.env.metrics.local` remain ignored before every initial publish. Do not add a secret to source, GitHub Actions or a report.
+Published source includes the Next.js application/API routes, fictional demo/policies, SQL migrations, tests, lockfile, scripts and sanitized evidence. `.env.local`, `.env.metrics.local`, production verification env files, `.vercel`, raw `metrics/live*.json`, customer screenshots, logs and build artifacts are excluded. Only placeholder configuration examples are public. Gemini runs server-side; Supabase calls use the public key plus the caller's validated JWT, never a service-role key.
 
-## Required gates
+`npm run verify:release` checks ignored env files, token patterns, privately configured credential values in candidate source/reachable Git patches, and private hosted fixture IDs in candidate source. Matches are never printed. It does not prove that unknown/encoded credentials are absent; review staged paths and documentation before each upload.
 
-1. Review the local demo, test results and PROJECT_STATUS.md. Live AI is currently blocked: embedding smoke HTTP 402, answer smoke HTTP 404. Model metadata access alone is not proof of working inference. Keep these failures visible until resolved without paid services.
-2. Finish two-customer and agent behavioral checks. Customer A ticket preservation was tested; Customer B reload/API isolation and agent workflows are pending their recorded results.
-3. `npm run verify` must pass for final code; use `npm run metrics:report` to refresh actual evidence. `.github/workflows/ci.yml` runs credential-free checks only. This workflow has not yet run on GitHub.
-4. Show the owner this payload and latest evidence. Obtain explicit publishing approval before pushing source publicly, creating/importing the Vercel project, or publishing any preview. Vercel Git import/push can trigger deployment automatically.
+## Repeat an approved update
 
-## After approval only
+Keep the existing owner login, repository, branch and linked Vercel project. Run all heavy checks sequentially:
 
-Use the owner's GitHub account and chosen repository visibility. Use the Next.js preset in Vercel, Node 22.x, `npm run build`, default output directory, Hobby plan and included vercel.app domain. Vercel Hobby commits must be authored by the owner. Enter the five application variables directly in Vercel environment settings; the Gemini key stays server-only. SQL migrations are already owner-reported applied to Supabase and are not run by Vercel. Confirm Auth Site URL/redirects for the deployed URL and repeat auth/isolation/ticket/RAG smoke tests. Never enable paid capacity to get past a quota.
+```sh
+npm ci
+npm run verify
+npm run metrics:report
+npm run verify:release
+```
 
-Official references: [Vercel Git integration](https://vercel.com/docs/git), [Vercel Hobby collaboration requirements](https://vercel.com/docs/deployments/troubleshoot-project-collaboration), [GitHub checkout action](https://github.com/actions/checkout).
+Review the diff, commit and push the existing `codex/portfolio-ready` branch. GitHub Actions verifies the credential-free build; production updates use the official Vercel CLI against the existing Hobby team/project:
+
+```sh
+npm exec --offline --package=vercel -- vercel deploy --prod --yes --scope singhroshni-2001
+```
+
+Verify Hobby again before deployment. Do not replace or recreate the project. Configure the five app values privately in the existing Vercel production environment only; changing public variables requires a rebuild. SQL migrations are applied separately and must not be blindly rerun.
+
+After deployment verify the stable alias, login/logout, original-ticket persistence, customer/agent boundaries and a cited policy answer. Preserve old failed metrics runs rather than overwriting or pooling them. The current dated results and outstanding checks are in `PROJECT_STATUS.md`, `HANDOFF.md` and `docs/METRICS_REPORT.md`.

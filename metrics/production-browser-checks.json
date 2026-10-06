@@ -1,0 +1,153 @@
+{
+  "measuredAt": "2026-10-06T18:58:09.763Z",
+  "completedAt": "2026-10-06T19:26:36.420Z",
+  "target": "https://resolvedesk-mocha.vercel.app",
+  "scope": "PRODUCTION UI checks in the Codex in-app browser; demo checks labelled separately",
+  "conditions": {
+    "sequential": true,
+    "desktopViewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "mobileViewport": {
+      "width": 390,
+      "height": 844
+    },
+    "accountLoginSamples": 3,
+    "ragSmokeCases": 2,
+    "latencySampleCollected": false,
+    "preservation": "Original customer A/B tickets retained; only a fictional workflow fixture replied to and resolved"
+  },
+  "checks": [
+    {
+      "name": "Customer A production login, customer navigation and agent controls hidden",
+      "status": "PASS"
+    },
+    {
+      "name": "Customer A original ticket and session survive browser reload/reopen",
+      "status": "PASS"
+    },
+    {
+      "name": "Mobile 390×844 Sign out is visible (40px high), clickable and returns to sign-in",
+      "status": "PASS"
+    },
+    {
+      "name": "Customer B production login and UI excludes customer A ticket",
+      "status": "PASS"
+    },
+    {
+      "name": "Customer B original ticket and session survive full browser reload",
+      "status": "PASS"
+    },
+    {
+      "name": "Customer B logout returns to sign-in without deleting tickets",
+      "status": "PASS"
+    },
+    {
+      "name": "Agent production login exposes ticket status, Knowledge and Analytics",
+      "status": "PASS"
+    },
+    {
+      "name": "Agent UI reply and In progress → Resolved status persist after full browser reload",
+      "status": "PASS",
+      "note": "Changed only an existing fictional workflow fixture; original A/B tickets preserved"
+    },
+    {
+      "name": "Agent UI policy upload completes and same-hash reuse retains three ready sources",
+      "status": "PASS",
+      "note": "Re-uploaded existing fictional returns.md; fresh embeddings were measured separately on October 5"
+    },
+    {
+      "name": "Production UI RAG answer and expandable returns.md page-1 citation match the policy",
+      "status": "PASS",
+      "note": "One browser smoke case; separate from the nine-case latency sample"
+    },
+    {
+      "name": "Mobile production chat at 390×844 renders answer, source excerpt and composer without horizontal overflow",
+      "status": "PASS",
+      "note": "Visual screenshot reviewed; no claim about other devices or browsers"
+    },
+    {
+      "name": "Production UI unanswerable question abstains with no invented country coverage or citations",
+      "status": "PASS",
+      "note": "Second browser smoke case; no latency sample was collected"
+    },
+    {
+      "name": "Mobile signup/sign-in form at 390×844 is readable with visible controls and no horizontal overflow",
+      "status": "PASS",
+      "note": "Form layout reviewed; actual signup/email confirmation was owner-observed in Chrome"
+    },
+    {
+      "name": "Desktop production demo overview at 1440×900 renders navigation, statistics, sources and tickets without horizontal overflow",
+      "status": "PASS",
+      "note": "Full-page screenshot visually reviewed; fictional statistics remain labelled"
+    },
+    {
+      "name": "Production demo FAQ shows Saved answer label and source citation",
+      "status": "PASS"
+    },
+    {
+      "name": "Production demo unknown question shows explicit saved-answer fallback at 390×844",
+      "status": "PASS",
+      "note": "Fictional demo remains distinct from live AI"
+    },
+    {
+      "name": "Mobile Knowledge source cards and upload controls render without horizontal overflow",
+      "status": "PASS",
+      "note": "Production demo layout; live upload behavior was separately tested"
+    },
+    {
+      "name": "Mobile Analytics charts remain readable and label fictional statistics explicitly",
+      "status": "PASS"
+    },
+    {
+      "name": "Mobile ticket list and confirmation dialog show accessible fields/buttons without horizontal overflow",
+      "status": "PASS",
+      "note": "Dialog inspected and cancelled; no demo or original live ticket changed"
+    }
+  ],
+  "automationAttempts": [
+    {
+      "action": "Agent status selector via exact label",
+      "result": "Automation locator found no matches; no mutation occurred",
+      "resolution": "Inspected DOM; use the exposed combobox role"
+    },
+    {
+      "action": "Wait for status-change toast",
+      "result": "Automation wait expired before toast observation; status checked afterward"
+    },
+    {
+      "action": "Saved reply assertion using diff-only AX output",
+      "result": "Assertion did not find unchanged text in a diff; full snapshot confirms saved reply"
+    },
+    {
+      "action": "Reopen workspace immediately after reload",
+      "result": "Browser command timed out during page reload; inspecting fresh state before retry"
+    },
+    {
+      "action": "Expand citation with AX-derived button role",
+      "result": "Automation locator did not match the HTML summary; no mutation occurred"
+    },
+    {
+      "action": "Pre-update logout credential cleanup",
+      "result": "INCONCLUSIVE: read-only field values are redacted; no credential values recorded",
+      "resolution": "Source hardening clears auth/workspace state; follow-up on the updated production build is required"
+    },
+    {
+      "action": "Capture full-page mobile ticket dialog",
+      "result": "Screenshot capture unavailable; viewport capture used instead"
+    }
+  ],
+  "evidence": [
+    "docs/evidence/production-demo-desktop.jpg",
+    "docs/evidence/production-demo-mobile.jpg",
+    "docs/evidence/production-rag-mobile.jpg",
+    "docs/evidence/production-signup-mobile.jpg"
+  ],
+  "limits": [
+    "Single browser and two viewport sizes; not physical-device or cross-browser certification",
+    "Owner-observed signup/email confirmation is reported separately",
+    "Browser RAG cases are not pooled into the October 5 latency sample",
+    "Logout hardening and customer knowledge copy await production follow-up after deployment"
+  ]
+}

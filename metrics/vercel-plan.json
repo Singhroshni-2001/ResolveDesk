@@ -1,9 +1,8 @@
 {
-  "checkedAt": "2026-10-05T14:59:01.680Z",
-  "scope": "Vercel read-only billing-plan query",
-  "account": "singhroshni-2001",
+  "checkedAt": "2026-10-06T19:39:24.9200994Z",
+  "scope": "Read-only Vercel teams API; existing linked project",
   "teamSlug": "singhroshni-2001",
   "plan": "hobby",
-  "aiGatewayConfigured": false,
-  "billingChanged": false
+  "billingChanged": false,
+  "aiGatewayConfigured": false
 }

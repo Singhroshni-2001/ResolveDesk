@@ -111,7 +111,19 @@ if (
   throw new Error(
     "Use exactly the three ready sample policies for this reproducible evaluation. No answers requested.",
   );
-const cases = JSON.parse(await readFile("tests/rag-evaluation.json", "utf8"));
+let cases = JSON.parse(await readFile("tests/rag-evaluation.json", "utf8"));
+const selectedCase = Number(process.env.EVAL_CASE_FILTER || 0);
+if (
+  selectedCase &&
+  (!Number.isInteger(selectedCase) ||
+    selectedCase < 1 ||
+    selectedCase > cases.length)
+)
+  throw new Error("Invalid evaluation case selection");
+if (selectedCase) cases = [cases[selectedCase - 1]];
+const outputFile = selectedCase
+  ? `metrics/live-case-${selectedCase}.json`
+  : "metrics/live.json";
 const results = [];
 const startTime = new Date().toISOString();
 await mkdir("metrics", { recursive: true });
@@ -137,7 +149,7 @@ for (let i = 0; i < cases.length; i++) {
     const elapsedMs = performance.now() - start;
     if (!response.ok) {
       results.push({
-        case: i + 1,
+        case: selectedCase || i + 1,
         question: c.question,
         kind: c.kind,
         status: response.status,
@@ -153,7 +165,7 @@ for (let i = 0; i < cases.length; i++) {
       !data.evaluation?.timingsMs
     ) {
       results.push({
-        case: i + 1,
+        case: selectedCase || i + 1,
         question: c.question,
         kind: c.kind,
         status: response.status,
@@ -174,7 +186,7 @@ for (let i = 0; i < cases.length; i++) {
     const abstained =
       Array.isArray(data.citations) && data.citations.length === 0;
     results.push({
-      case: i + 1,
+      case: selectedCase || i + 1,
       question: c.question,
       kind: c.kind,
       expected: c.expected,
@@ -197,7 +209,7 @@ for (let i = 0; i < cases.length; i++) {
     });
   } catch {
     results.push({
-      case: i + 1,
+      case: selectedCase || i + 1,
       question: c.question,
       kind: c.kind,
       result: "request-timeout-or-network-error",
@@ -253,9 +265,9 @@ const output = {
   },
   results,
 };
-await writeFile("metrics/live.json", JSON.stringify(output, null, 2) + "\n");
+await writeFile(outputFile, JSON.stringify(output, null, 2) + "\n");
 console.log(
-  "Saved metrics/live.json. Successful requests: " +
+  "Saved evaluation report. Successful requests: " +
     output.timings.successful.n +
     " / " +
     cases.length +

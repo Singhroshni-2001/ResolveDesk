@@ -1,0 +1,63 @@
+{
+  "measuredAt": "2026-10-05T15:45:38.618Z",
+  "target": "https://resolvedesk-mocha.vercel.app",
+  "scope": "LIVE hosted Supabase and production Next HTTP API; browser reload is separate evidence",
+  "checks": [
+    {
+      "name": "customer A sign-in",
+      "status": "PASS"
+    },
+    {
+      "name": "customer A hosted role",
+      "status": "PASS"
+    },
+    {
+      "name": "customer A role and own API rows",
+      "status": "PASS"
+    },
+    {
+      "name": "customer B sign-in",
+      "status": "PASS"
+    },
+    {
+      "name": "customer B hosted role",
+      "status": "PASS"
+    },
+    {
+      "name": "customer B role and own API rows",
+      "status": "PASS"
+    },
+    {
+      "name": "A cannot read B ticket through Supabase REST/RLS",
+      "status": "PASS"
+    },
+    {
+      "name": "A cannot reply to B ticket through Next API",
+      "status": "PASS"
+    },
+    {
+      "name": "A cannot change own ticket status through Next API",
+      "status": "PASS"
+    },
+    {
+      "name": "A existing ticket survives fresh API fetch",
+      "status": "PASS"
+    },
+    {
+      "name": "B cannot read A ticket through Supabase REST/RLS",
+      "status": "PASS"
+    },
+    {
+      "name": "B cannot reply to A ticket through Next API",
+      "status": "PASS"
+    },
+    {
+      "name": "B cannot change own ticket status through Next API",
+      "status": "PASS"
+    },
+    {
+      "name": "B existing ticket survives fresh API fetch",
+      "status": "PASS"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "checkedAt": "2026-10-07 (Asia/Calcutta)",
+  "target": "https://resolvedesk-mocha.vercel.app",
+  "verificationMethod": "Owner inspected and saved Supabase Authentication URL Configuration; dashboard is signed out in agent browser",
+  "checks": [
+    {
+      "name": "Site URL is the production origin",
+      "status": "PASS",
+      "note": "Owner verified https://resolvedesk-mocha.vercel.app"
+    },
+    {
+      "name": "Production redirect allowlist entry",
+      "status": "PASS",
+      "note": "Owner verified https://resolvedesk-mocha.vercel.app/**; existing entries preserved"
+    },
+    {
+      "name": "Local redirect allowlist entry",
+      "status": "PASS",
+      "note": "Owner verified http://localhost:3000/**; existing entries preserved"
+    },
+    {
+      "name": "New production signup, confirmation-email return and customer login",
+      "status": "PASS",
+      "note": "Owner completed signup in Chrome with a new email, confirmed the email returned to production and signed in as Customer. This is owner-observed evidence, not an automated inbox check"
+    }
+  ]
+}

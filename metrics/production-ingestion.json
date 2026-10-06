@@ -1,0 +1,87 @@
+{
+  "measuredAt": "2026-10-05T15:09:15.771Z",
+  "target": "https://resolvedesk-mocha.vercel.app",
+  "scope": "LIVE Supabase storage and Next ingestion; only passed processing checks establish usable vectors",
+  "conditions": {
+    "sampleFiles": 3,
+    "concurrency": 1,
+    "preservation": "No document/ticket deletions; same-hash reuse; test-session-only sign-out"
+  },
+  "checks": [
+    {
+      "name": "owner-provisioned agent role",
+      "status": "PASS"
+    },
+    {
+      "name": "returns.md upload and same-hash retry",
+      "status": "PASS"
+    },
+    {
+      "name": "returns.md original bytes in private storage",
+      "status": "PASS"
+    },
+    {
+      "name": "returns.md bounded processing and ready-state retry",
+      "status": "PASS"
+    },
+    {
+      "name": "shipping.md upload and same-hash retry",
+      "status": "PASS"
+    },
+    {
+      "name": "shipping.md original bytes in private storage",
+      "status": "PASS"
+    },
+    {
+      "name": "shipping.md bounded processing and ready-state retry",
+      "status": "PASS"
+    },
+    {
+      "name": "billing.txt upload and same-hash retry",
+      "status": "PASS"
+    },
+    {
+      "name": "billing.txt original bytes in private storage",
+      "status": "PASS"
+    },
+    {
+      "name": "billing.txt bounded processing and ready-state retry",
+      "status": "PASS"
+    }
+  ],
+  "corpus": {
+    "documents": 3,
+    "logicalPages": 3,
+    "chunks": 3,
+    "manifest": [
+      {
+        "name": "returns.md",
+        "sha256": "c62beedaeda5cf298f8fd9c2a437a4d2a664c27feae42003881fa141576d57b9",
+        "status": "ready",
+        "embeddingModel": "gemini-embedding-2",
+        "logicalPages": 1,
+        "chunks": 1,
+        "embeddedChunks": 1
+      },
+      {
+        "name": "shipping.md",
+        "sha256": "a2d57b273c56f738ede62685c81e7815b4f66393f24bcf4c57ed8cac263f3678",
+        "status": "ready",
+        "embeddingModel": "gemini-embedding-2",
+        "logicalPages": 1,
+        "chunks": 1,
+        "embeddedChunks": 1
+      },
+      {
+        "name": "billing.txt",
+        "sha256": "c69cf6ecf47878070758b950d97d5c3c659d3c3a483d1755174368508083fc77",
+        "status": "ready",
+        "embeddingModel": "gemini-embedding-2",
+        "logicalPages": 1,
+        "chunks": 1,
+        "embeddedChunks": 1
+      }
+    ],
+    "physicalPdfPages": 0
+  }
+}

@@ -1,80 +1,93 @@
 # ResolveDesk handoff
 
-## Mobile sign-out repair pending verification
-2026-10-05: found existing Sign out offscreen in narrow sidebar; added labelled Sign out button, scrollable sidebar, mobile promotional-card removal and explicit sign-in reset. Browser reconnect timed out after hot reload. Do not claim sign-out succeeded. npm run verify started with final outcome pending. Keep owner VS Code server running and preserve Customer A ticket. Next: verify layout, sign out through UI and leave at sign-in for Customer B.
+Updated: 2026-10-07 (Asia/Calcutta). Read PROJECT_STATUS.md and docs/METRICS_REPORT.md for dated outcomes. Preserve this workspace and its existing deployment.
 
-## Latest continuation — 2026-10-05
-Customer A has signed up/confirmed/signed in. Automated browser inspection shows Customer role and no agent-only navigation. Live fictional ticket created: `[private test ticket ID retained locally]`, subject `[TEST] Customer A persistence — 2026-10-05`, Open/Other. Initial submission timed out; retry succeeded after reload showed no ticket. Final persistence check in progress; customer B/agent tests untested. Keep the user's VS Code server running.
-Owner reports migrations 001 and 002 applied and all eight tables RLS enabled; screenshots verify policy names, visible grants, private knowledge bucket and function permissions. Data API ON. SQL Editor postgres; automatic-RLS trigger configuration confirmed by exported definition, but no future-table behavior test. Postgres defaults omit CRUD grants but retain Dxtm; supabase_admin defaults remain broad. Do not rerun base migration.
-Next: finish reload evidence, then create customer B and a dedicated agent one account step at a time; agent promotion is owner SQL only. Dedicated test credentials may be entered locally in ignored .env.metrics.local; never request them in chat. Run real isolation/agent/storage workflows before marking passed. Older setup notes below are historical where superseded here.
-Updated: 2026-10-05 (Asia/Calcutta).
+## Goal, deployment and authorization
 
-## Goal and constraints
-Finish a polished portfolio AI customer-support application in this existing workspace. Preserve completed work. All services must stay on free plans: ₹0, no billing activation or paid fallback. Vercel Hobby is the deployment target. Publishing requires explicit owner approval; nothing has been deployed.
+A polished backend/full-stack portfolio AI customer-support workspace: independent fictional demo plus authenticated support tickets, agent workflows, private policy ingestion and cited RAG.
 
-## Architecture
-Next.js 16 App Router, React 19, TypeScript, Tailwind 4. Browser → authenticated server routes → Supabase using the caller's JWT and public key → server-only Gemini. PostgreSQL/pgvector stores tickets, replies, documents/chunks and private conversations. Private Supabase Storage holds originals. RLS enforces ownership; only project-owner SQL provisions agent/admin roles. Never trust editable signup metadata for privileges.
+- App: https://resolvedesk-mocha.vercel.app
+- Demo: https://resolvedesk-mocha.vercel.app/?demo=1
+- Source: https://github.com/Singhroshni-2001/ResolveDesk
+- Existing branch: codex/portfolio-ready. Existing Vercel project: resolvedesk, team singhroshni-2001.
+- ₹0 constraint: existing Supabase Free, Gemini Free and Vercel Hobby only. Never activate billing, upgrade, add AI Gateway or purchase a domain.
+- Owner explicitly authorized upload and actual deployment. Do not request publishing approval again for this authorized completion; verify Hobby and screen payload before updates. Do not create replacement projects.
 
-## Demo and live
-Credential-free demo uses fictional Nova Store data, three labelled saved answers with exact citations, honest unknown-question fallback and browser-local tickets/replies/status. Demo must make no external requests. Live mode uses actual Supabase Auth/DB/Storage and Gemini; demo results are never live AI results. Agents manage shared policy documents and tickets but cannot read private customer conversations.
+## Architecture and boundaries
+
+Next.js App Router / React / TypeScript / Tailwind. Browser bearer JWT → server route input/identity validation → Supabase PostgreSQL/Auth/Storage with the same caller token/public key → server-only Gemini. SQL RLS enforces ticket/conversation ownership. Only owner SQL grants agent/admin roles; editable signup metadata never grants access. Agents share tickets/policies but cannot read customers' private conversations. No service-role key is required.
+
+TXT/MD/text-PDF originals are private agent-only objects. Bounded extraction preserves page metadata; SHA-256 prevents duplicate documents. Chunks receive normalized 768-dimensional embeddings through resumable bounded processing. Only ready chunks for the configured embedding model enter cosine pgvector retrieval (top 5, threshold 0.35). Schema-validated answers cite server-controlled source metadata or abstain. No model tools perform ticket/refund actions.
+
+Ticket/reply UUIDs make retries idempotent. SQL resolution triggers stamp/clear actual timestamps. Durable SQL counters bound API requests across serverless instances.
+
+## Demo versus live
+
+Demo is fictional Nova Store data and three labelled saved FAQs, with honest unsupported-question fallback. It makes no credential-dependent external requests; tickets/replies/status stay in browser local storage. Demo perspective switching and sample analytics never describe live permissions or business impact.
+
+Live uses actual confirmed Supabase accounts and Gemini. Original customer A/B tickets and the owner-provisioned third support account must remain intact. Fictional workflow fixtures were used for mutations. Owner also verified a new production signup and email-confirmation return in Chrome; its credentials are neither needed nor recorded.
 
 ## Important files
-- AGENTS.md: mandatory conventions; read installed Next docs before relevant code changes.
-- PROJECT_STATUS.md: current evidence, blockers and ordered continuation.
-- components/desk.tsx: workspace UI and demo/live state.
-- app/api/: authenticated tickets, replies/status, documents, chat and history.
-- lib/config.ts, browser.ts, server.ts: safe configuration and auth boundaries.
-- lib/extract.ts, grounding.ts, gemini.ts: bounded ingestion and grounded answers.
-- supabase/migrations/001_resolvedesk.sql: base schema/RLS/storage/functions.
-- supabase/migrations/002_explicit_access.sql: explicit table/column/function privileges and RLS.
-- supabase/verify-settings.sql: read-only actual schema/settings evidence.
-- supabase/verify-defaults.sql: rollback-only future-table automatic RLS/exposure probe.
-- tests/permissions.sql, storage-permissions.sql: meaningful transactional SQL checks.
-- tests/rag-evaluation.json: defined answerable/unanswerable evaluation.
-- samples/: three policy documents and fictional order data.
-- scripts/: verification, model checks, local/live measurements and live workflows.
-- metrics/: credential-free raw evidence; docs/METRICS_REPORT.md generated by metrics:report.
-- README.md and docs/DEMO_WALKTHROUGH.md: operation and demo.
 
-## Configuration and account state
-User created Supabase organisation “Roshni Projects” and a project, identified API Project URL format, and saved both public Supabase variables locally. Values must never appear in chat, reports or source. .env.local is covered by .gitignore; do not overwrite it. GEMINI_API_KEY remains a placeholder. Model defaults are configured but availability with this account is unverified.
-Read-only probe: Auth 200; Data API root 401; profiles 404. This does not prove migration application or dashboard toggles. Never assume SQL files have been applied.
-Account guidance must be one step at a time. Current step: owner runs only supabase/verify-settings.sql and reports whether expected tables/policies exist. Then decide whether base migration is needed, followed by 002; do not blindly rerun 001.
+- AGENTS.md: conventions and installed Next.js documentation requirement.
+- components/desk.tsx / app/globals.css: responsive workspace and demo/live state.
+- app/api/: caller-authenticated workspace, tickets, replies/status, documents/process, chat/history.
+- lib/domain.ts, config.ts, browser.ts, server.ts: inputs, safe configuration and identity boundaries.
+- lib/extract.ts, grounding.ts, gemini.ts: bounded extraction, validated citations, free-tier inference and bounded transient retry.
+- supabase/migrations/001_resolvedesk.sql, 002_explicit_access.sql: installed schema/RLS/storage and explicit privileges.
+- supabase/verify-settings.sql: read-only inspection. verify-defaults.sql is a rollback-only future-table probe, still untested.
+- tests/: 18 unit tests, transactional SQL permissions/storage checks and nine-case RAG definition.
+- samples/: three fictional policy files used for measured ingestion/retrieval.
+- scripts/: sequential verification, private live-account checks, model smoke, metrics and release screening.
+- metrics/production-*.json: public sanitized production evidence. metrics/live*.json: ignored private fixtures.
+- docs/METRICS_REPORT.md, RESUME.md, DEPLOYMENT_REVIEW.md, DEMO_WALKTHROUGH.md: methodology, portfolio material and operation.
+- docs/evidence/: public fictional/blank-form screenshots; customer-* screenshots remain ignored.
+- .github/workflows/ci.yml: credential-free sequential checks; no deployment secrets.
 
-## Resume metrics
-Separate demo/local/live evidence. Record actual document/page/chunk counts, corpus hashes, defined evaluation questions and retrieved passages, groundedness review and abstentions. Record median and nearest-rank p95, raw samples, sample size, warmups, environment and conditions. Saved-answer lookup and local extraction timings are not Gemini response latency. No invented accuracy percentages or business impact.
-Commands: npm run metrics:local; npm run metrics:live; npm run metrics:report. Live eval requires ready sample documents, Gemini and a locally configured dedicated agent; workflows require agent and two confirmed customers in ignored .env.metrics.local (see .env.metrics.example). Never request passwords in chat.
+## Configuration and migrations
 
-## Resume safely
-Read status and actual logs before claims. Finish checks, inspect hosted settings/grants/RLS, configure Gemini locally, verify model access, run real customer/agent/storage/ticket/RAG workflows, review metrics, then show deployment payload and request publishing approval. Do not recreate the project.
+Five application variables: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, GEMINI_API_KEY, GEMINI_ANSWER_MODEL, GEMINI_EMBEDDING_MODEL. Existing .env.local and production values are configured; preserve them. Dedicated A/B/agent test emails/passwords are privately saved in ignored .env.metrics.local. Do not print, ask for, upload or commit values/tokens.
 
-## Confirmed Customer A live browser test — 2026-10-05
-- PASS: live navigation identified Customer A as Customer; agent-only knowledge/analytics navigation absent. This checks loaded role/UI, not all denied API mutations.
-- PASS: fictional Open/Other ticket created: [private test ticket ID retained locally], [TEST] Customer A persistence — 2026-10-05. Initial attempt timed out; after reload showed no ticket, retry succeeded.
-- PASS: full tab reload, Go to your workspace, fresh workspace fetch showed exactly one ticket; reopening detail confirmed identical UUID, subject, category, description and status. Sign-in survived reload.
-- Evidence screenshot: docs/evidence/customer-a-ticket-persistence.png (ticket detail, no credentials).
-- PENDING: customer B isolation, customer denied status/role mutations, agent reply/status and private-storage behavioral checks. No live RAG/latency claim.
-- Next required manual step: create/confirm a distinct Customer B using credentials kept local; then return signed in as B for isolation test. Keep existing VS Code server running. No deployment or credential changes.
+Both migrations were owner-applied in order. Hosted inspection found eight RLS-enabled public tables and 15 policies (12 public + three storage); explicit restricted permissions and private knowledge bucket matched the migrations. Do not rerun 001. Automatic-RLS/default privilege configuration was inspected; behavior for future tables was not tested.
 
-## Mobile sign-out repair verified — 2026-10-05
-Supersedes the pending repair note above. Added labelled Sign out button and scrollable sidebar; mobile sidebar starts below 64px topbar and hides promotional card. Actual Sign out click succeeded in the narrow built-in browser, showing Welcome back with empty Email/Password fields and Sign in action. Customer A ticket remained visible immediately before sign-out and was not mutated/deleted. Browser left at sign-in for customer B; owner VS Code server left running.
-Final npm run verify: unit tests 18/18 PASS, embedded DB tests PASS, TypeScript PASS, production build PASS (exit 0). metrics/verification.json contains final source fingerprint; ignored test-results/ contains logs. Evidence: docs/evidence/customer-b-sign-in-ready.png. Cross-customer/agent workflow checks remain pending.
+Owner verified production Site URL https://resolvedesk-mocha.vercel.app and redirect entries https://resolvedesk-mocha.vercel.app/** plus http://localhost:3000/**, preserving existing entries. New signup → email confirmation → production return → Customer login passed by owner observation. Existing A/B/agent login/logout was tested in the built-in browser and direct API.
 
-## Current verification — 2026-10-05 (supersedes older setup steps)
-- Git initialized locally on codex/portfolio-ready; no remote, commit, push or deployment. Both .env.local and .env.metrics.local confirmed ignored by git check-ignore (.gitignore:3). Customer values mistakenly entered in example were moved into ignored local file without overwriting configured local values; example restored to placeholders.
-- Hosted migrations 001 and 002 owner-confirmed applied; eight public tables RLS enabled; 15 policies (12 public + 3 storage), not 17. Visible grants/policies/private 1 MiB knowledge bucket/function privileges match prior inspection. Automatic RLS event trigger enabled; postgres defaults have no automatic CRUD grants. Future-table behavior still untested.
-- Customer A prior browser creation/reload persistence PASS; preserved ticket [private test ticket ID retained locally]. B signup/payment ticket owner-reported; latest browser account/reload not verified while browser error page blocked access.
-- Automated customer checks FAIL at A sign-in: Supabase HTTP 400 invalid_credentials. No cross-customer mutations were attempted; isolation checks UNTESTED until local account values corrected. Agent placeholders remain; owner provision required.
-- New Free-tier Gemini key: embedding PASS HTTP 200 / 768 dimensions. Old 2.5 Flash-Lite generation HTTP 404. Verified free-tier 3.1 Flash-Lite replacement: HTTP 200, synthetic 30-day answer and citation [1] PASS with explicit JSON schema. App answer route now uses schema and 2048-token bound. Single operation samples are not end-to-end RAG latency or accuracy. Raw evidence metrics/gemini-smoke.json; Google pricing https://ai.google.dev/gemini-api/docs/pricing?authuser=2. Billing untouched.
-- Live ingestion/RAG evaluation, agent replies/status/storage and B browser persistence remain UNTESTED. Demo remains independent with labelled saved answers.
-- Commands: npm run dev (existing VS Code server retained); npm run test; npm run test:db; npm run typecheck; npm run build; npm run verify; npm run test:customers; npm run verify:gemini; npm run test:ingestion; npm run test:live; npm run metrics:local; npm run metrics:live; npm run metrics:report; npm run verify:release.
-- Next: correct A credentials privately; rerun customer checks; restore normal localhost browser page for B reload; create/confirm separate support account and owner-provision agent per docs/AGENT_SETUP.md; add agent test credentials locally; run ingestion/workflows/evaluation and review citations; regenerate metrics; review docs/DEPLOYMENT_REVIEW.md and obtain explicit approval before GitHub publication or Vercel import/deploy. All plans remain ₹0.
+Gemini actual embeddings/answers/ingestion pass with gemini-embedding-2 (768 dimensions) and gemini-3.1-flash-lite. No pending key setup. Free-service 503/quota failures remain; never enable paid fallback.
 
-## Customer isolation rerun — 2026-10-05
-Supersedes prior invalid_credentials blocker: corrected A and B sign-ins PASS; hosted customer roles PASS. IPv6 localhost refused the local API; existing server left running and evaluation URL set to IPv4 127.0.0.1:3000. Both directions PASS: Supabase RLS hides the other ticket, Next API rejects cross-ticket replies with 404, own status changes rejected with 403, fresh API fetch retains each original ticket and excludes the other. 14 recorded checks PASS in metrics/live-customers.json. A and B tickets retained, no role changes/deletions. Fresh API persistence is not a browser reload test; latest B browser reload remains untested. Final prior app verification is confirmed in metrics/verification.json: 18/18 unit tests, embedded DB, TypeScript and production build PASS. Current next manual step: create/confirm distinct support account; owner provisioning SQL follows confirmation. Ingestion, agent workflows and live RAG evaluation remain pending that account. No deployment.
+## Verification and metrics rules
 
-Latest local checks: npm run test 18/18 PASS; npm run verify:release PASS (ignored credential files and candidate payload scan). No GitHub publication or Vercel deployment performed.
+Current local sequential tests/database/TypeScript/build PASS (18/18 unit tests). Production: 14 customer API checks, six workflow groups, ten ingestion checks; browser evidence records 19 flow/layout checks before the final update. A/B original tickets and a fictional agent reply/status survive full browser reload. Desktop 1440×900 and mobile 390×844 checked in one browser. Owner auth/config evidence is explicitly distinguished from automation.
 
+Actual live corpus: three ready documents / three logical text pages / three chunks / zero uploaded PDF pages. October 5 main nine-case RAG run: eight successful HTTP 200, one 503; successful n=8 median 9.82 s, nearest-rank p95 13.46 s, serial 15-second spacing/no warmup. Separate case-9 follow-up n=1 passed (11.13 s). Expected source ranked first in 4/4 answerable cases; two unanswerable cases abstained. Assistant review is not independent human evaluation.
 
-## Authorized publication and Hobby verification — 2026-10-05
-Owner authorized GitHub upload and actual Vercel deployment on free plans. GitHub target https://github.com/Singhroshni-2001/ResolveDesk. Vercel account/team singhroshni-2001 billing.plan confirmed hobby via read-only API. Project resolvedesk linked; all five existing application production variables configured without displaying values. No AI Gateway, upgrade or billing change. All raw hosted-account fixtures and customer screenshots excluded from Git/deployment; credential files ignored. Agent role PASS and earlier agent reply/resolution/customer persistence checks PASS; latest workflow retry and returns.md upload failed; full ingestion/RAG remains unverified. Local unit/DB/TypeScript PASS, production build result pending. No deployment success claimed yet.
+Preserve earlier incomplete/failed attempts and source hashes. Never merge follow-up timing, demo lookup, local extraction or browser smoke into live latency. No invented percentages, business impact, uptime or general accuracy. Public report reads sanitized snapshots, not ignored fixture files. Resume material must keep these limits.
+
+## Continue safely
+
+Two local UI updates await production follow-up: accurate customer knowledge copy and complete local-session logout cleanup. All current local tests/build pass. Fresh Hobby verification, screened commit/push, update of the existing deployment, post-update auth/customer checks and final evidence publication are the remaining steps. No manual account action remains pending. Keep the owner's VS Code server running and run heavy commands sequentially.
+
+~~~sh
+npm ci
+npm run dev
+npm run verify
+npm run verify:release
+npm run metrics:report
+~~~
+
+Individual required commands: npm run test, npm run test:db, npm run typecheck, npm run build. npm start runs the built app; do not conflict with the existing port-3000 dev server.
+
+For production tests in PowerShell:
+
+~~~powershell
+$env:EVAL_APP_URL = 'https://resolvedesk-mocha.vercel.app'
+npm run test:customers
+npm run test:live
+npm run test:ingestion
+$env:EVAL_SPACING_MS = '15000'
+npm run metrics:live
+npm run metrics:report
+~~~
+
+Preserve existing ignored live output under dated names before remeasuring. Use EVAL_CASE_FILTER=9 only for a separate follow-up.
+
+Historical handoff/status are retained under docs/history; do not treat superseded credential/account blockers as current. Limitations: single-store, no OCR/background worker, small corpus, UI caps, no independent human evaluation/SLA, intermittent provider availability and untested future-table RLS behavior.

@@ -5,8 +5,12 @@ node_modules/
 test-results/
 *.log
 docs/evidence/customer-*.png
+docs/evidence/customer-*
 metrics/live-customers.json
 metrics/live-customer-a.json
 metrics/live-workflows.json
 
 metrics/live*.json
+
+.test-build/
+*.tsbuildinfo

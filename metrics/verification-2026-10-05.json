@@ -1,13 +1,13 @@
 {
-  "measuredAt": "2026-10-06T19:30:04.835Z",
+  "measuredAt": "2026-10-05T15:56:33.077Z",
   "scope": "LOCAL verification only; no hosted Supabase/Gemini claims",
-  "sourceSha256": "193fd6b6c91535296669455521de7ab18270626077d615f59ce05de27a594bed",
+  "sourceSha256": "a10aabf1a44219f1a04149f1b316526cdc0e52fc7dfb545598f077bb5f78a8a4",
   "checks": [
     {
       "command": "npm run test",
       "passed": true,
       "exitCode": 0,
-      "elapsedMs": 40866.841,
+      "elapsedMs": 8453.1744,
       "log": "test-results/verify-test.log",
       "summary": [
         "# tests 18",
@@ -19,7 +19,7 @@
       "command": "npm run test:db",
       "passed": true,
       "exitCode": 0,
-      "elapsedMs": 7399.465600000003,
+      "elapsedMs": 4924.6216,
       "log": "test-results/verify-test-db.log",
       "summary": null
     },
@@ -27,7 +27,7 @@
       "command": "npm run typecheck",
       "passed": true,
       "exitCode": 0,
-      "elapsedMs": 10069.924699999996,
+      "elapsedMs": 5549.1170999999995,
       "log": "test-results/verify-typecheck.log",
       "summary": null
     },
@@ -35,7 +35,7 @@
       "command": "npm run build",
       "passed": true,
       "exitCode": 0,
-      "elapsedMs": 40343.72669999999,
+      "elapsedMs": 46356.399099999995,
       "log": "test-results/verify-build.log",
       "summary": null
     }

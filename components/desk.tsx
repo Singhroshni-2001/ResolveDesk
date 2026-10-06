@@ -876,12 +876,35 @@ export default function Desk() {
                     disabled={busy || loading}
                     className="sign-out-button"
                     onClick={async () => {
-                      await supabase()?.auth.signOut();
-                      setMenu(false);
-                      setSignup(false);
-                      setScreen("auth");
-                      setTickets([]);
-                      setMessages([]);
+                      if (lock.current) return;
+                      lock.current = true;
+                      setBusy(true);
+                      setError("");
+                      try {
+                        const result = await supabase()?.auth.signOut({
+                          scope: "local",
+                        });
+                        if (result?.error) throw result.error;
+                        setMenu(false);
+                        setSignup(false);
+                        setEmail("");
+                        setPassword("");
+                        setUserEmail("");
+                        setRole("customer");
+                        setView("Overview");
+                        setSelected(null);
+                        setTickets([]);
+                        setMessages([]);
+                        setDocs([]);
+                        setConversations([]);
+                        conversation.current = "";
+                        setScreen("auth");
+                      } catch (e) {
+                        setError((e as Error).message);
+                      } finally {
+                        lock.current = false;
+                        setBusy(false);
+                      }
                     }}
                   >
                     <LogOut size={17} />
@@ -1088,7 +1111,9 @@ export default function Desk() {
                         ))}
                       {!docs.length && mode === "live" && (
                         <p className="empty-inline">
-                          Your team hasn’t added any documents yet.
+                          {isAgent
+                            ? "Your team hasn’t added any documents yet."
+                            : "Ask support chat a policy question and open its source citations."}
                         </p>
                       )}
                       <button
