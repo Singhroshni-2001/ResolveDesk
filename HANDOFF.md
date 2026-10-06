@@ -56,15 +56,19 @@ Gemini actual embeddings/answers/ingestion pass with gemini-embedding-2 (768 dim
 
 ## Verification and metrics rules
 
-Current local sequential tests/database/TypeScript/build PASS (18/18 unit tests). Production: 14 customer API checks, six workflow groups, ten ingestion checks; browser evidence records 19 flow/layout checks before the final update. A/B original tickets and a fictional agent reply/status survive full browser reload. Desktop 1440×900 and mobile 390×844 checked in one browser. Owner auth/config evidence is explicitly distinguished from automation.
+Current local sequential tests/database/TypeScript/build PASS (18/18 unit tests). Production: 14 customer API checks, six workflow groups, ten ingestion checks; browser evidence records 25 flow/layout checks (19 before the final update plus six on deployed source ee9f951). All 14 customer API checks passed again after deployment. A/B original tickets and a fictional agent reply/status survive full browser reload. Desktop 1440×900 and mobile 390×844 checked in one browser. Owner auth/config evidence is explicitly distinguished from automation. Eight unsuccessful/inconclusive browser automation observations remain recorded with their resolutions.
 
 Actual live corpus: three ready documents / three logical text pages / three chunks / zero uploaded PDF pages. October 5 main nine-case RAG run: eight successful HTTP 200, one 503; successful n=8 median 9.82 s, nearest-rank p95 13.46 s, serial 15-second spacing/no warmup. Separate case-9 follow-up n=1 passed (11.13 s). Expected source ranked first in 4/4 answerable cases; two unanswerable cases abstained. Assistant review is not independent human evaluation.
 
 Preserve earlier incomplete/failed attempts and source hashes. Never merge follow-up timing, demo lookup, local extraction or browser smoke into live latency. No invented percentages, business impact, uptime or general accuracy. Public report reads sanitized snapshots, not ignored fixture files. Resume material must keep these limits.
 
-## Continue safely
+## Completed release and future maintenance
 
-Two local UI updates await production follow-up: accurate customer knowledge copy and complete local-session logout cleanup. All current local tests/build pass. Fresh Hobby verification, screened commit/push, update of the existing deployment, post-update auth/customer checks and final evidence publication are the remaining steps. No manual account action remains pending. Keep the owner's VS Code server running and run heavy commands sequentially.
+The existing production app was updated under the owner's explicit authorization, with Hobby confirmed first. Deployed application source: ee9f951aa7261762b97884dd193eb46b0ffbaeef; deployment dpl_5UY2n3X2CUNPKo1JDvNH3jBzBnK8 is READY. Local verification, cloud compilation/TypeScript and application-source GitHub CI PASS. Anonymous production demo returns 200; unauthenticated workspace returns 401. See metrics/production-deployment.json for exact evidence and CI link. Final documentation/report commits can follow the deployed application commit without changing the runtime.
+
+Customer knowledge copy and local-session logout cleanup are deployed and browser-verified. Follow-up confirms agent/customer roles, mobile sign-out, signed-out full reload, preserved original-ticket isolation and a fresh cited Gemini answer. All required completion/account steps are done; no pending credentials or publishing approval. Browser demo remains available and the owner's VS Code server was preserved.
+
+For future work: read the dated reports first; preserve accounts, tickets, ignored secrets and failed measurements; make the requested change; run heavy verification sequentially; screen the payload; verify Hobby before an authorized app deployment; update the existing project and verify production. Optional future work includes a larger independent evaluation, physical-device/cross-browser checks and a rollback-only future-table RLS probe; none is represented as passed.
 
 ~~~sh
 npm ci

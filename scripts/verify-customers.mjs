@@ -201,7 +201,7 @@ try {
       {
         measuredAt: new Date().toISOString(),
         scope:
-          "LIVE hosted Supabase and local Next HTTP API; browser reload is separate evidence",
+          "LIVE hosted Supabase and Next HTTP API; target identifies production/local; browser reload is separate evidence",
         target:
           new URL(base).hostname === "resolvedesk-mocha.vercel.app"
             ? "Vercel production"

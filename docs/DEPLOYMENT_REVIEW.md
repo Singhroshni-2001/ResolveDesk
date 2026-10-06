@@ -6,6 +6,14 @@
 
 The owner explicitly authorized upload and deployment. The existing Vercel project and Supabase data are preserved. Vercel team `singhroshni-2001` was verified as Hobby through the read-only teams API (`metrics/vercel-plan.json`). Supabase and Gemini use the owner's existing free services. No billing activation, upgrade, AI Gateway, purchased domain or paid fallback.
 
+## Final verified update
+
+Application source `ee9f951aa7261762b97884dd193eb46b0ffbaeef` was deployed to the existing project. Deployment `dpl_5UY2n3X2CUNPKo1JDvNH3jBzBnK8` is READY and the stable alias remains unchanged. Local sequential verification, the Vercel cloud compilation/TypeScript check and [application-source GitHub CI](https://github.com/Singhroshni-2001/ResolveDesk/actions/runs/37521546770) passed.
+
+Post-update evidence: anonymous public demo HTTP 200; anonymous workspace HTTP 401; 14/14 customer API/RLS checks; six browser follow-ups covering roles, mobile logout, signed-out reload, customer copy/isolation and a fresh cited Gemini answer. Overall browser evidence contains 25 passed checks across the original and follow-up sessions, with unsuccessful/inconclusive automation observations retained. Owner-observed new signup/email confirmation and Supabase URL settings are reported separately.
+
+See `metrics/production-deployment.json`, `production-customer-checks.json`, `production-browser-checks.json` and `production-auth.json` for dated results. Final documentation/report commits follow the application commit without changing the deployed runtime. CLI deployment remains separate from GitHub Actions; automatic Git deployment was not configured. There is no outstanding owner account step.
+
 ## Payload and credentials
 
 Published source includes the Next.js application/API routes, fictional demo/policies, SQL migrations, tests, lockfile, scripts and sanitized evidence. `.env.local`, `.env.metrics.local`, production verification env files, `.vercel`, raw `metrics/live*.json`, customer screenshots, logs and build artifacts are excluded. Only placeholder configuration examples are public. Gemini runs server-side; Supabase calls use the public key plus the caller's validated JWT, never a service-role key.

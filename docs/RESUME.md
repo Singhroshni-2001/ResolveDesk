@@ -5,9 +5,9 @@ Source: https://github.com/Singhroshni-2001/ResolveDesk
 
 ## ATS-friendly resume bullets
 
-- Built and deployed a Next.js/TypeScript support platform with Supabase Auth, PostgreSQL row-level security, private storage, and idempotent ticket/reply APIs on Vercel Hobby.
-- Implemented 768-dimensional Gemini embeddings and pgvector RAG with bounded document ingestion, source citations, and abstention; evaluated nine scenarios against three policy documents.
-- Verified customer isolation and agent permissions with 14 production API checks and six live workflow groups; added 18 unit tests and sequential CI checks for database permissions, TypeScript, and production builds.
+- Built and deployed a Next.js/TypeScript support platform on Vercel Hobby with Supabase authentication, RLS across eight tables, private storage, and idempotent ticket APIs.
+- Implemented 768-dimensional Gemini/pgvector RAG with document ingestion, citations and abstention; evaluated nine scenarios over three policy documents.
+- Verified customer isolation and agent permissions with 14 production API checks, six workflow groups and 18 unit tests; automated SQL, TypeScript and build checks in CI.
 
 ## Project description
 

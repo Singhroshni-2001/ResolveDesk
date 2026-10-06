@@ -1,6 +1,6 @@
 {
   "measuredAt": "2026-10-06T18:58:09.763Z",
-  "completedAt": "2026-10-06T19:26:36.420Z",
+  "completedAt": "2026-10-06T20:09:33.110Z",
   "target": "https://resolvedesk-mocha.vercel.app",
   "scope": "PRODUCTION UI checks in the Codex in-app browser; demo checks labelled separately",
   "conditions": {
@@ -104,6 +104,40 @@
       "name": "Mobile ticket list and confirmation dialog show accessible fields/buttons without horizontal overflow",
       "status": "PASS",
       "note": "Dialog inspected and cancelled; no demo or original live ticket changed"
+    },
+    {
+      "name": "Updated deployment agent login retains owner-provisioned role and agent navigation",
+      "status": "PASS",
+      "phase": "post-update"
+    },
+    {
+      "name": "Updated deployment mobile agent logout returns to sign-in and hides workspace controls",
+      "status": "PASS",
+      "phase": "post-update",
+      "note": "Sign out observed within the 390×844 viewport; completed sign-out checked after async transition"
+    },
+    {
+      "name": "Updated customer overview uses accurate policy guidance while preserving customer role and original ticket isolation",
+      "status": "PASS",
+      "phase": "post-update",
+      "note": "Original A ticket present; B ticket and agent navigation absent; customer no longer sees a false empty-library assertion"
+    },
+    {
+      "name": "Updated deployment customer logout returns to sign-in without deleting the original ticket",
+      "status": "PASS",
+      "phase": "post-update",
+      "note": "Customer API retest separately confirms original A/B persistence and isolation"
+    },
+    {
+      "name": "Updated logout remains signed out after full reload and reopening live workspace",
+      "status": "PASS",
+      "phase": "post-update"
+    },
+    {
+      "name": "Updated deployment customer RAG answer and expanded returns.md page-1 citation match the stored policy",
+      "status": "PASS",
+      "phase": "post-update",
+      "note": "One additional browser smoke case; no latency was measured or pooled into the October 5 benchmark"
     }
   ],
   "automationAttempts": [
@@ -131,23 +165,37 @@
     {
       "action": "Pre-update logout credential cleanup",
       "result": "INCONCLUSIVE: read-only field values are redacted; no credential values recorded",
-      "resolution": "Source hardening clears auth/workspace state; follow-up on the updated production build is required"
+      "resolution": "Historical field-value observation remained inconclusive because values were redacted; source cleanup shipped and post-update logout, customer switching and full-reload signed-out behavior passed"
     },
     {
       "action": "Capture full-page mobile ticket dialog",
       "result": "Screenshot capture unavailable; viewport capture used instead"
+    },
+    {
+      "action": "Post-update Go live immediately after full reload",
+      "result": "Automation command timed out while page was reloading; no credentials entered",
+      "resolution": "Inspect fresh state before continuing"
     }
   ],
   "evidence": [
     "docs/evidence/production-demo-desktop.jpg",
     "docs/evidence/production-demo-mobile.jpg",
     "docs/evidence/production-rag-mobile.jpg",
-    "docs/evidence/production-signup-mobile.jpg"
+    "docs/evidence/production-signup-mobile.jpg",
+    "docs/evidence/production-demo-desktop-final.jpg",
+    "docs/evidence/production-rag-mobile-final.jpg"
   ],
   "limits": [
     "Single browser and two viewport sizes; not physical-device or cross-browser certification",
     "Owner-observed signup/email confirmation is reported separately",
-    "Browser RAG cases are not pooled into the October 5 latency sample",
-    "Logout hardening and customer knowledge copy await production follow-up after deployment"
-  ]
+    "Browser RAG cases are not pooled into the October 5 latency sample"
+  ],
+  "postUpdate": {
+    "sourceCommit": "ee9f951aa7261762b97884dd193eb46b0ffbaeef",
+    "completedAt": "2026-10-06T20:09:33.110Z",
+    "checks": 6,
+    "accountLoginSamples": 3,
+    "ragSmokeCases": 1,
+    "latencySampleCollected": false
+  }
 }

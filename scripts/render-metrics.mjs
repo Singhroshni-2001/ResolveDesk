@@ -19,6 +19,7 @@ const gemini = await read("gemini-smoke");
 const ingestion = await read("production-ingestion");
 const browser = await read("production-browser-checks");
 const auth = await read("production-auth");
+const deployment = await read("production-deployment");
 const fmt = (n) =>
   n === null || n === undefined ? "not measured" : n.toFixed(6) + " ms";
 let out =
@@ -127,7 +128,11 @@ if (customerA)
     ". See metrics/live-customer-a.json and its screenshot.\n\n";
 if (customers)
   out +=
-    "Two-customer API/RLS evidence: " +
+    "Two-customer API/RLS evidence measured " +
+    customers.measuredAt +
+    " against " +
+    customers.target +
+    ": " +
     JSON.stringify(customers.checks) +
     ". See metrics/production-customer-checks.json. PENDING is not PASS; fresh API fetching is distinct from full browser reload.\n\n";
 if (gemini)
@@ -225,6 +230,12 @@ try {
     "\n| Prior incomplete attempt (UTC) | Spacing | Attempted | HTTP 200 | Failed |\n|---|---:|---:|---:|---:|\n";
   for (const r of snapshot.priorIncompleteAttempts)
     out += `| ${r.measuredAt} | ${r.conditions.spacingMs / 1000} s | ${r.attempted} | ${r.successful} | ${r.failed} |\n`;
+  out +=
+    "\n### Defined cases and observed outcomes\n\nAnswers and retrieved passages remain in the sanitized production snapshot. The review column is an assistant comparison with the policy, not independent human evaluation.\n\n| Case | Type | Question | Main HTTP | Expected source retrieved | Abstained | Review |\n|---|---|---|---:|---|---|---|\n";
+  const cell = (value) => String(value ?? "N/A").replaceAll("|", "\\|").replaceAll(/\r?\n/g, " ");
+  for (const r of snapshot.mainRun.results)
+    out += `| ${r.case} | ${cell(r.kind)} | ${cell(r.question)} | ${r.status} | ${cell(r.automaticChecks?.expectedSourceRetrieved)} | ${cell(r.automaticChecks?.abstained)} | ${cell(r.review?.verdict)} |\n`;
+  out += "\nCase 9's main-run failure remains in this table; its separate successful follow-up does not replace it.\n";
 } catch {}
 out += "\n## Production browser and authentication checks\n\n";
 for (const [report, file] of [
@@ -236,9 +247,21 @@ for (const [report, file] of [
     continue;
   }
   out += `Recorded ${report.measuredAt || report.checkedAt}; target ${report.target}. See metrics/${file}.json.\n\n`;
+  if (report.postUpdate)
+    out += `Post-update follow-up completed ${report.postUpdate.completedAt} on source ${report.postUpdate.sourceCommit}: ${report.postUpdate.checks} additional checks, ${report.postUpdate.ragSmokeCases} RAG smoke case, no latency sample. Earlier browser checks and their dates remain separate.\n\n`;
   for (const c of report.checks)
-    out += `- ${c.status}: ${c.name}${c.note ? ` — ${c.note}` : ""}.\n`;
+    out += `- ${c.status}${c.phase ? ` (${c.phase})` : ""}: ${c.name}${c.note ? ` — ${c.note}` : ""}.\n`;
+  if (report.automationAttempts)
+    out += `\n${report.automationAttempts.length} unsuccessful or inconclusive automation observations are retained in the JSON with their resolutions; these are not silently counted as passed attempts.\n`;
   out += "\n";
+}
+if (deployment) {
+  out += `## Published deployment verification\n\nChecked ${deployment.checkedAt}. Stable URL: ${deployment.target}. Deployed application source: ${deployment.sourceCommit}; Vercel state: ${deployment.readyState}; linked plan: ${deployment.plan}; cloud build: ${deployment.cloudBuild}. See metrics/production-deployment.json. Final documentation commits can follow this application commit without changing the runtime.\n\n`;
+  for (const c of deployment.checks)
+    out += `- ${c.status}: ${c.name}${c.httpStatus ? ` (HTTP ${c.httpStatus})` : ""}.\n`;
+  out += `\nApplication-source GitHub CI: ${deployment.githubCi.status}/${deployment.githubCi.conclusion}. [Recorded CI run](${deployment.githubCi.url}).\n\n`;
+  if (deployment.followUpCompletedAt)
+    out += `Post-update browser/API follow-up completed ${deployment.followUpCompletedAt}.\n\n`;
 }
 out +=
   "## Remaining limits\n\nIntermittent free-provider failures, a three-document corpus, no OCR, no independent human evaluation, single-store permissions, no background ingestion worker, newest-500-ticket/100-document UI limits and untested future-table automatic-RLS behavior bound the claims. Signup/email redirect checks must not be inferred from existing-account API login. Historical embedding HTTP 402 and old answer-model HTTP 404 attempts remain failures of those attempts, even though the later free-tier model checks passed.\n";

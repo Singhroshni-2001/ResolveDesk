@@ -1,9 +1,7 @@
 {
-  "measuredAt": "2026-10-06T20:02:56.104Z",
+  "measuredAt": "2026-10-05T15:45:38.618Z",
   "target": "https://resolvedesk-mocha.vercel.app",
-  "sourceCommit": "ee9f951aa7261762b97884dd193eb46b0ffbaeef",
   "scope": "LIVE hosted Supabase and production Next HTTP API; browser reload is separate evidence",
-  "preservation": "Existing tickets retained; test-session-only sign-out; no role changes or deletions",
   "checks": [
     {
       "name": "customer A sign-in",

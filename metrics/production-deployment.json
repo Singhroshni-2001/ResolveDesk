@@ -1,0 +1,41 @@
+{
+  "checkedAt": "2026-10-06T20:02:17.7416540Z",
+  "target": "https://resolvedesk-mocha.vercel.app",
+  "sourceCommit": "ee9f951aa7261762b97884dd193eb46b0ffbaeef",
+  "deploymentId": "dpl_5UY2n3X2CUNPKo1JDvNH3jBzBnK8",
+  "deploymentUrl": "https://resolvedesk-e9m2p0ezr-singhroshni-2001.vercel.app",
+  "readyState": "READY",
+  "cloudBuild": "PASS; Next 16.3.8 compilation and TypeScript",
+  "plan": "hobby",
+  "checks": [
+    {
+      "name": "Anonymous public production demo",
+      "httpStatus": 200,
+      "status": "PASS"
+    },
+    {
+      "name": "Unauthenticated workspace denied",
+      "httpStatus": 401,
+      "status": "PASS"
+    },
+    {
+      "name": "Post-update bidirectional customer API/RLS checks (14/14)",
+      "status": "PASS",
+      "measuredAt": "2026-10-06T20:02:56.104Z",
+      "evidence": "metrics/production-customer-checks.json"
+    },
+    {
+      "name": "Post-update agent/customer login, mobile logout, signed-out reload, overview and cited RAG checks (6/6)",
+      "status": "PASS",
+      "measuredAt": "2026-10-06T20:09:33.110Z",
+      "evidence": "metrics/production-browser-checks.json"
+    }
+  ],
+  "githubCi": {
+    "headSha": "ee9f951aa7261762b97884dd193eb46b0ffbaeef",
+    "conclusion": "success",
+    "url": "https://github.com/Singhroshni-2001/ResolveDesk/actions/runs/37521546770",
+    "status": "completed"
+  },
+  "followUpCompletedAt": "2026-10-06T20:09:33.110Z"
+}
